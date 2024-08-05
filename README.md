@@ -37,7 +37,7 @@ RSS.select("h1").ruleset((node, index, props) => {
 `node` is the element itself and `index` is its order in the document. We'll talk more about `props` later.
 
 ### State selectors
-You can pass an extra `state` parameter into `RSS.select` to create focus or hover effects.
+You can pass an extra `state` argument into `RSS.select` to create focus or hover effects.
 ```js
 // hover state
 RSS.select("h1", "hover").ruleset((node, index, props) => {
@@ -62,7 +62,7 @@ RSS.select("button", ["focus", "hover"]).ruleset({
 __*Note: still in beta, state selectors are known to be imperfect.*__
 
 ### Props
-You can pass variables into the `props` parameter by using `RSS.setProps`:
+You can pass variables into the `props` argument by using `RSS.setProps`:
 ```js
 RSS.setProps({
     evenBG: "black",
