@@ -1,0 +1,30 @@
+{
+    "name": "rss",
+    "version": "0.0.1",
+    "description": "Reactive stylesheets.",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "rollup -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yikuansun/rss.git"
+    },
+    "keywords": [
+        "css"
+    ],
+    "author": "Yikuan Sun",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/yikuansun/rss/issues"
+    },
+    "homepage": "https://github.com/yikuansun/rss#readme",
+    "devDependencies": {
+        "rollup": "^4.20.0"
+    },
+    "dependencies": {
+        "@rollup/plugin-terser": "^0.4.4"
+    }
+}
