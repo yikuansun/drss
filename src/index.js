@@ -110,12 +110,14 @@ class StateSelector extends Selector {
 class RSS {
     static selectors = [];
     static _props = {};
+    static _initialized = false;
 
     static sayHello(par) {
         console.log("hello", par);
     }
 
     static update() {
+        if (!this._initialized) return; // if style.js included in <head>, need to wait for window to load.
         for (let selector of this.selectors) {
             selector.render(this._props);
         }
@@ -145,6 +147,9 @@ class RSS {
     }
 
     static initialize() {
+        if (this._initialized) return; // don't need to initialize multiple times
+        this._initialized = true;
+
         RSS.update();
     
         let observer = new MutationObserver(() => {
