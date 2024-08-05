@@ -1,0 +1,51 @@
+<script src="../dist/rss.min.js"></script>
+<h1>Even</h1>
+<h1>Odd</h1>
+<h1>Even</h1>
+<h1>Odd</h1>
+<h1 data-color="red">I am red</h1>
+<button>Click me</button>
+<!--<script>
+    // when the DOM is updated (ex.: new elements created), styles update automatically.
+    document.querySelector("button").addEventListener("mousedown", () => {
+        let li = document.createElement("li");
+        li.innerText = "hi";
+        document.querySelector("ul").appendChild(li);
+    });
+</script>
+<ul></ul>-->
+<script>
+    // Apply styles & set up auto-update after window has loaded.
+    window.addEventListener("load", RSS.initialize);
+
+    RSS.setProps({
+        evenBG: "black",
+        oddBG: "grey",
+    });
+
+    RSS.select("h1").ruleset((node, index, props) => {
+        return {
+            color: node.dataset.color || "white", // use data-color of element, or white.
+            backgroundColor: (index % 2 == 0)?(props["evenBG"]):(props["oddBG"]), // alternate colors
+        };
+    });
+
+    // hover state
+    RSS.select("h1", "hover").ruleset((node, index, props) => {
+        return {
+            color: "green",
+        };
+    });
+
+    // focus state
+    RSS.select("button", "focus").ruleset((node, index, props) => {
+        return {
+            color: "green",
+        };
+    });
+
+    // static ruleset (use object instead of function)
+    RSS.select("li").ruleset({
+        color: "blue",
+    });
+</script>
