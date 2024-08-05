@@ -1,3 +1,5 @@
+import c2d from "./camelToDash";
+
 class RuleSet {
     hook = (node, index, props) => { return {}; };
 
@@ -39,7 +41,9 @@ class Selector {
                 }
             }
             for (let key in style) {
-                node.style[key] = style[key];
+                // use vars for state handling stuff
+                node.style.setProperty("--normal-" + c2d(key), style[key]);
+                node.style[key] = "var(--normal-" + c2d(key) + ")";
             }
         }
     }
@@ -63,13 +67,11 @@ class StateSelector extends Selector {
         let all = document.querySelectorAll(this.query);
         for (let i = 0; i < all.length; i++) {
             let node = all[i];
-            let styleInitial = {};
             let style = {};
             
             for (let set of this.ruleSets) {
                 let dict = set.hook(node, i, props);
                 for (let key in dict) {
-                    styleInitial[key] = node.style[key] + "";
                     style[key] = dict[key];
                 }
             }
@@ -77,32 +79,27 @@ class StateSelector extends Selector {
             if (this.states.includes("hover")) {
                 node.addEventListener("mouseenter", () => {
                     for (let key in style) {
-                        node.style[key] = style[key];
+                        node.style.setProperty("--hover-" + c2d(key), style[key]);
+                        node.style[key] = "var(--hover-" + c2d(key) + ")";
                     }
                 });
                 node.addEventListener("mouseleave", () => {
-                    for (let key in styleInitial) {
-                        node.style[key] = styleInitial[key];
+                    for (let key in style) {
+                        node.style[key] = "var(--normal-" + c2d(key) + ")";
                     }
                 });
-            }
-
-            if (this.states.includes("normal")) {
-                // dunno what the point of this is, but I suppose someone might want it.
-                for (let key in style) {
-                    node.style[key] = style[key];
-                }
             }
 
             if (this.states.includes("focus")) {
                 node.addEventListener("focus", () => {
                     for (let key in style) {
-                        node.style[key] = style[key];
+                        node.style.setProperty("--focus-" + c2d(key), style[key]);
+                        node.style[key] = "var(--focus-" + c2d(key) + ")";
                     }
                 });
                 node.addEventListener("blur", () => {
-                    for (let key in styleInitial) {
-                        node.style[key] = styleInitial[key];
+                    for (let key in style) {
+                        node.style[key] = "var(--normal-" + c2d(key) + ")";
                     }
                 });
             }
