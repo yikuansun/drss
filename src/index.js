@@ -146,17 +146,18 @@ class RSS {
         }
         this.update();
     }
-}
 
-window.addEventListener("load", () => {
-    RSS.update();
-
-    let observer = new MutationObserver(() => {
+    static initialize() {
         RSS.update();
-    });
-    observer.observe(document.body, { childList: true, subtree: true, });
-    // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
-    // need fallback
-});
+    
+        let observer = new MutationObserver(() => {
+            RSS.update();
+        });
+        observer.observe(document.body, { childList: true, subtree: true, });
+        // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
+        // need fallback
+
+    }
+}
 
 export default RSS;
