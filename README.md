@@ -10,14 +10,14 @@ npm and cdn (tba)
 
 ### Creating a stylesheet
 First, initialize RSS:
-```
+```js
 window.addEventListener("load", RSS.initialize);
 ```
 This will apply the styles & auto-updating once the document has loaded.
 If you know the window has already loaded, you can simply call `RSS.initialize()`.
 
 Now, you can stylize an element using `select` and `ruleset`:
-```
+```js
 RSS.select("h1").ruleset({
     color: "green",
     backgroundColor: "black", // "background-color" also works
@@ -26,7 +26,7 @@ RSS.select("h1").ruleset({
 `select` uses the same query system as `document.querySelector`.
 Here, we've passed an object into `ruleset`: thus, the style is static.
 However, if we use a function, we can make the style reactive:
-```
+```js
 RSS.select("h1").ruleset((node, index, props) => {
     return {
         color: node.dataset.color || "white", // use data-color of element, or white.
@@ -38,7 +38,7 @@ RSS.select("h1").ruleset((node, index, props) => {
 
 ### State selectors
 You can pass an extra `state` parameter into `RSS.select` to create focus or hover effects.
-```
+```js
 // hover state
 RSS.select("h1", "hover").ruleset((node, index, props) => {
     return {
@@ -54,7 +54,7 @@ RSS.select("button", "focus").ruleset((node, index, props) => {
 });
 ```
 You can also apply multiple states simultaneously with an array:
-```
+```js
 RSS.select("button", ["focus", "hover"]).ruleset({
     color: "green",
 });
@@ -63,7 +63,7 @@ __*Note: still in beta, state selectors are known to be imperfect.*__
 
 ### Props
 You can pass variables into the `props` parameter by using `RSS.setProps`:
-```
+```js
 RSS.setProps({
     evenBG: "black",
     oddBG: "grey",
