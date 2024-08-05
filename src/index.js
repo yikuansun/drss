@@ -76,6 +76,13 @@ class RSS {
 
 window.addEventListener("load", () => {
     RSS.update();
+
+    let observer = new MutationObserver(() => {
+        RSS.update();
+    });
+    observer.observe(document.body, { childList: true, subtree: true, });
+    // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
+    // need fallback
 });
 
 export default RSS;
