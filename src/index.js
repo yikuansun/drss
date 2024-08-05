@@ -1,5 +1,5 @@
 class RuleSet {
-    hook = () => { return {}; };
+    hook = (node, index, props) => { return {}; };
 
     constructor(hook) {
         this.hook = hook;
@@ -19,22 +19,24 @@ class Selector {
         let set = new RuleSet(hook);
         this.ruleSets.push(set);
 
-        this.render();
+        RSS.update();
     }
 
-    render() {
-        let style = {};
+    render(props) {
+        let all = document.querySelectorAll(this.query);
+        for (let i = 0; i < all.length; i++) {
+            let node = all[i];
 
-        for (let set of this.ruleSets) {
-            let dict = set.hook();
-            for (let key in dict) {
-                style[key] = dict[key];
+            let style = {};
+    
+            for (let set of this.ruleSets) {
+                let dict = set.hook(node, i, props);
+                for (let key in dict) {
+                    style[key] = dict[key];
+                }
             }
-        }
-
-        for (let elem of document.querySelectorAll(this.query)) {
             for (let key in style) {
-                elem.style[key] = style[key];
+                node.style[key] = style[key];
             }
         }
     }
@@ -42,6 +44,7 @@ class Selector {
 
 class RSS {
     static selectors = [];
+    static props = {};
 
     static sayHello(par) {
         console.log("hello", par);
@@ -49,7 +52,7 @@ class RSS {
 
     static update() {
         for (let selector of this.selectors) {
-            selector.render();
+            selector.render(this.props);
         }
     }
 
@@ -59,5 +62,9 @@ class RSS {
         return selector;
     }
 }
+
+window.addEventListener("load", () => {
+    RSS.update();
+});
 
 export default RSS;
