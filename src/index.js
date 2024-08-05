@@ -11,7 +11,7 @@ class Selector {
     ruleSets = [];
     query = "";
 
-    constructor(query, state) {
+    constructor(query) {
         this.query = query;
     }
 
@@ -45,6 +45,45 @@ class Selector {
     }
 }
 
+class StateSelector extends Selector {
+    state = "hover";
+
+    constructor(query, state) {
+        super(query);
+        this.state = state;
+    }
+
+    render(props) {
+        let all = document.querySelectorAll(this.query);
+        for (let i = 0; i < all.length; i++) {
+            let node = all[i];
+            let styleInitial = {};
+            let style = {};
+            
+            for (let set of this.ruleSets) {
+                let dict = set.hook(node, i, props);
+                for (let key in dict) {
+                    styleInitial[key] = node.style[key] + "";
+                    style[key] = dict[key];
+                }
+            }
+
+            if (this.state == "hover") {
+                node.addEventListener("mouseenter", () => {
+                    for (let key in style) {
+                        node.style[key] = style[key];
+                    }
+                });
+                node.addEventListener("mouseleave", () => {
+                    for (let key in styleInitial) {
+                        node.style[key] = styleInitial[key];
+                    }
+                });
+            }
+        }
+    }
+}
+
 class RSS {
     static selectors = [];
     static _props = {};
@@ -60,7 +99,13 @@ class RSS {
     }
 
     static select(query, state) {
-        let selector = new Selector(query, state);
+        let selector;
+        if (!state) {
+            selector = new Selector(query);
+        }
+        else {
+            selector = new StateSelector(query, state);
+        }
         this.selectors.push(selector);
         return selector;
     }
