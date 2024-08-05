@@ -93,6 +93,19 @@ class StateSelector extends Selector {
                     node.style[key] = style[key];
                 }
             }
+
+            if (this.states.includes("focus")) {
+                node.addEventListener("focus", () => {
+                    for (let key in style) {
+                        node.style[key] = style[key];
+                    }
+                });
+                node.addEventListener("blur", () => {
+                    for (let key in styleInitial) {
+                        node.style[key] = styleInitial[key];
+                    }
+                });
+            }
         }
     }
 }
