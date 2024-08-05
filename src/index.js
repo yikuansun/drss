@@ -46,11 +46,17 @@ class Selector {
 }
 
 class StateSelector extends Selector {
-    state = "hover";
+    states = [];
 
-    constructor(query, state) {
+    /**
+     * Create new selector, with state properties.
+     * @param {string} query Query selector. Same as document.querySelector
+     * @param {string[] | string} states The state or list of states. Can be hover,
+     */
+    constructor(query, states) {
         super(query);
-        this.state = state;
+        if (typeof(states) == "string") this.states = [ states ];
+        else this.states = states;
     }
 
     render(props) {
@@ -68,7 +74,7 @@ class StateSelector extends Selector {
                 }
             }
 
-            if (this.state == "hover") {
+            if (this.states.includes("hover")) {
                 node.addEventListener("mouseenter", () => {
                     for (let key in style) {
                         node.style[key] = style[key];
@@ -79,6 +85,13 @@ class StateSelector extends Selector {
                         node.style[key] = styleInitial[key];
                     }
                 });
+            }
+
+            if (this.states.includes("normal")) {
+                // dunno what the point of this is, but I suppose someone might want it.
+                for (let key in style) {
+                    node.style[key] = style[key];
+                }
             }
         }
     }
