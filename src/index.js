@@ -44,7 +44,7 @@ class Selector {
 
 class RSS {
     static selectors = [];
-    static props = {};
+    static _props = {};
 
     static sayHello(par) {
         console.log("hello", par);
@@ -52,7 +52,7 @@ class RSS {
 
     static update() {
         for (let selector of this.selectors) {
-            selector.render(this.props);
+            selector.render(this._props);
         }
     }
 
@@ -60,6 +60,17 @@ class RSS {
         let selector = new Selector(query, state);
         this.selectors.push(selector);
         return selector;
+    }
+
+    static getProps() {
+        return this._props;
+    }
+
+    static setProps(value) {
+        for (let key in value) {
+            this._props[key] = value[key];
+        }
+        this.update();
     }
 }
 
