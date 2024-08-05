@@ -16,7 +16,10 @@ class Selector {
     }
 
     ruleset(hook) {
-        let set = new RuleSet(hook);
+        let _hook = hook;
+        if (typeof(hook) == "object") _hook = () => { return hook };
+
+        let set = new RuleSet(_hook);
         this.ruleSets.push(set);
 
         RSS.update();
