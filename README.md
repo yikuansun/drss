@@ -83,8 +83,9 @@ See [test/demo.html](./test/demo.html).
 Yes please. I could use some help.
 
 ## Challenges
-Focus & hover state can break when used together, when DOM updates, etc.
 
-Pseudo-elements cannot be selected.
+Some strings require quotation marks, which are missing (ex.: `content: hello world;`).
 
-Need fallback
+Need fallback if MutationObserver doesn't work
+
+Currently, RSS uses a random-number ID system. While it is unlikely, repeat ID's may occur.
