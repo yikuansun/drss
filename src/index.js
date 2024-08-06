@@ -37,14 +37,23 @@ class Selector {
             for (let set of this.ruleSets) {
                 let dict = set.hook(node, i, props);
                 for (let key in dict) {
-                    style[key] = dict[key];
+                    style[c2d(key)] = dict[key];
                 }
             }
+
+            let sheet = RSS._getStyleElement();
+            let nodeId = "";
+            if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
+            else nodeId = Math.random().toFixed(4).replace("0.", "");
+            let rulesetStr = `[data-rssId="${nodeId}"],[data-rss-id="${nodeId}"]{`;
+
             for (let key in style) {
-                // use vars for state handling stuff
-                node.style.setProperty("--normal-" + c2d(key), style[key]);
-                node.style[key] = "var(--normal-" + c2d(key) + ")";
+                rulesetStr += key + ":" + style[key] + ";";
             }
+            rulesetStr += "}";
+
+            sheet.innerHTML += rulesetStr;
+            node.dataset["rssId"] = nodeId;
         }
     }
 }
@@ -75,34 +84,29 @@ class StateSelector extends Selector {
                     style[key] = dict[key];
                 }
             }
+            let sheet = RSS._getStyleElement();
+            let nodeId = "";
+            if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
+            else nodeId = Math.random().toFixed(4).replace("0.", "");
 
-            if (this.states.includes("hover")) {
-                node.addEventListener("mouseenter", () => {
-                    for (let key in style) {
-                        node.style.setProperty("--hover-" + c2d(key), style[key]);
-                        node.style[key] = "var(--hover-" + c2d(key) + ")";
-                    }
-                });
-                node.addEventListener("mouseleave", () => {
-                    for (let key in style) {
-                        node.style[key] = "var(--normal-" + c2d(key) + ")";
-                    }
-                });
+            let rulesetStr = "";
+            // create the actual css selector
+            for (let state of this.states) {
+                rulesetStr += `[data-rssId="${nodeId}"]:${state},[data-rss-id="${nodeId}"]:${state}`;
+                rulesetStr += ",";
             }
+            // remove last comma
+            rulesetStr = rulesetStr.substring(0, rulesetStr.lastIndexOf(","));
 
-            if (this.states.includes("focus")) {
-                node.addEventListener("focus", () => {
-                    for (let key in style) {
-                        node.style.setProperty("--focus-" + c2d(key), style[key]);
-                        node.style[key] = "var(--focus-" + c2d(key) + ")";
-                    }
-                });
-                node.addEventListener("blur", () => {
-                    for (let key in style) {
-                        node.style[key] = "var(--normal-" + c2d(key) + ")";
-                    }
-                });
+            rulesetStr += "{";
+            for (let key in style) {
+                rulesetStr += key + ":" + style[key] + ";";
             }
+            rulesetStr += "}";
+
+            sheet.innerHTML += rulesetStr;
+            node.dataset["rssId"] = nodeId;
+
         }
     }
 }
@@ -118,6 +122,8 @@ class RSS {
 
     static update() {
         if (!this._initialized) return; // if style.js included in <head>, need to wait for window to load.
+        let styleElement = this._getStyleElement();
+        styleElement.innerHTML = "";
         for (let selector of this.selectors) {
             selector.render(this._props);
         }
@@ -159,6 +165,21 @@ class RSS {
         // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         // need fallback
 
+    }
+
+    /**
+     * Create/get the actual CSS stylesheet
+     * @returns {HTMLStyleElement} the style element (id #rssHead)
+     */
+    static _getStyleElement() {
+        if (!this._initialized) return false;
+        let styleElement = document.querySelector("style#rssHead");
+        if (!styleElement) {
+            styleElement = document.createElement("style");
+            styleElement.id = "rssHead";
+            document.head.appendChild(styleElement);
+        }
+        return styleElement;
     }
 }
 

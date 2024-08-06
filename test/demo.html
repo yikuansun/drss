@@ -36,6 +36,9 @@
             color: "green",
         };
     });
+    RSS.select("button", "hover").ruleset({
+        color: "blue",
+    });
 
     // focus state
     RSS.select("button", "focus").ruleset((node, index, props) => {
@@ -47,5 +50,9 @@
     // static ruleset (use object instead of function)
     RSS.select("li").ruleset({
         color: "blue",
+    });
+
+    RSS.select("li", "before").ruleset({
+        content: "hello world",
     });
 </script>
