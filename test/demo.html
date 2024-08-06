@@ -23,6 +23,12 @@
         oddBG: "grey",
     });
 
+    // static ruleset
+    RSS.select("h1").ruleset({
+        fontFamily: "cursive", // "font-family" also works.
+    });
+
+    // dynamic ruleset
     RSS.select("h1").ruleset((node, index, props) => {
         return {
             color: node.dataset.color || "white", // use data-color of element, or white.
@@ -47,12 +53,25 @@
         };
     });
 
-    // static ruleset (use object instead of function)
-    RSS.select("li").ruleset({
+    // you can stylize multiple states simultaneously
+    RSS.select("li", ["before", "after"]).ruleset({
+        content: "'--'", // need additional quotes around CSS string
         color: "blue",
     });
 
-    RSS.select("li", "before").ruleset({
-        content: "hello world",
+    // scrollbars!
+    RSS.select("body").ruleset({
+        overflow: "scroll"
+    });
+    RSS.select("body", ":-webkit-scrollbar").ruleset({ // add an extra : since it's a pseudo
+        width: "10px",
+        height: "10px",
+        backgroundColor: "aliceblue",
+    });
+    RSS.select("body", ":-webkit-scrollbar-thumb").ruleset({
+        backgroundColor: "grey",
+    });
+    RSS.select("body", ":-webkit-scrollbar-thumb:hover").ruleset({
+        backgroundColor: "darkblue",
     });
 </script>

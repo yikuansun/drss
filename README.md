@@ -84,8 +84,6 @@ Yes please. I could use some help.
 
 ## Challenges
 
-Some strings require quotation marks, which are missing (ex.: `content: hello world;`).
-
 Need fallback if MutationObserver doesn't work
 
-Currently, RSS uses a random-number ID system. While it is unlikely, repeat ID's may occur.
+Currently, RSS uses a random-number ID system. While it is highly unlikely, repeat ID's may occur.

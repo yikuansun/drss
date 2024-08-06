@@ -81,7 +81,7 @@ class StateSelector extends Selector {
             for (let set of this.ruleSets) {
                 let dict = set.hook(node, i, props);
                 for (let key in dict) {
-                    style[key] = dict[key];
+                    style[c2d(key)] = dict[key];
                 }
             }
             let sheet = RSS._getStyleElement();
