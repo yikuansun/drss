@@ -44,7 +44,7 @@ class Selector {
             let sheet = RSS._getStyleElement();
             let nodeId = "";
             if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
-            else nodeId = Math.random().toFixed(4).replace("0.", "");
+            else nodeId = Math.random().toFixed(10).replace("0.", "");
             let rulesetStr = `[data-rssId="${nodeId}"],[data-rss-id="${nodeId}"]{`;
 
             for (let key in style) {
@@ -87,7 +87,7 @@ class StateSelector extends Selector {
             let sheet = RSS._getStyleElement();
             let nodeId = "";
             if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
-            else nodeId = Math.random().toFixed(4).replace("0.", "");
+            else nodeId = Math.random().toFixed(10).replace("0.", "");
 
             let rulesetStr = "";
             // create the actual css selector
