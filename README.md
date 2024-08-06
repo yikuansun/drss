@@ -11,10 +11,15 @@ npm and cdn (tba)
 ### Creating a stylesheet
 First, initialize RSS:
 ```js
+RSS.initialize();
+```
+This will apply the styles & activate auto-updating.
+
+`RSS.initialize` is most effective *after* the window has loaded. Thus, it is most practical to place the `<script>` tag at the end of your `<body>` tag, to ensure that it is executed after the other DOM contents.
+If you know the window will not have loaded by the time your script is being executed, such as if you put the `<script>` tag in `<head>`, you can wait for window load:
+```js
 window.addEventListener("load", RSS.initialize);
 ```
-This will apply the styles & auto-updating once the document has loaded.
-If you know the window has already loaded, you can simply call `RSS.initialize()`.
 
 Now, you can stylize an element using `select` and `ruleset`:
 ```js
@@ -59,7 +64,6 @@ RSS.select("button", ["focus", "hover"]).ruleset({
     color: "green",
 });
 ```
-__*Note: still in beta, state selectors are known to be imperfect.*__
 
 ### Props
 You can pass variables into the `props` argument by using `RSS.setProps`:
