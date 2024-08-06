@@ -44,7 +44,7 @@ class Selector {
             let sheet = RSS._getStyleElement();
             let nodeId = "";
             if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
-            else nodeId = Math.random().toFixed(10).replace("0.", "");
+            else nodeId = RSS.getNextId();
             let rulesetStr = `[data-rssId="${nodeId}"],[data-rss-id="${nodeId}"]{`;
 
             for (let key in style) {
@@ -87,7 +87,7 @@ class StateSelector extends Selector {
             let sheet = RSS._getStyleElement();
             let nodeId = "";
             if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
-            else nodeId = Math.random().toFixed(10).replace("0.", "");
+            else nodeId = RSS.getNextId();
 
             let rulesetStr = "";
             // create the actual css selector
@@ -115,6 +115,7 @@ class RSS {
     static selectors = [];
     static _props = {};
     static _initialized = false;
+    static _nextId = 0;
 
     static sayHello(par) {
         console.log("hello", par);
@@ -180,6 +181,15 @@ class RSS {
             document.head.appendChild(styleElement);
         }
         return styleElement;
+    }
+
+    /**
+     * Get a unique value for rss-id
+     * @returns {number} lowest available id
+     */
+    static getNextId() {
+        this._nextId++;
+        return this._nextId - 1;
     }
 }
 

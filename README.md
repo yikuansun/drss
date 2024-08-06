@@ -86,4 +86,4 @@ Yes please. I could use some help.
 
 Need fallback if MutationObserver doesn't work
 
-Currently, RSS uses a random-number ID system. While it is highly unlikely, repeat ID's may occur.
+pseudo-elements can be a pain
