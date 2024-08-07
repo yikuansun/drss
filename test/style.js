@@ -60,3 +60,10 @@ RSS.select("body", ":-webkit-scrollbar-thumb").ruleset({
 RSS.select("body", ":-webkit-scrollbar-thumb:hover").ruleset({
     backgroundColor: "darkblue",
 });
+
+// responsive design
+RSS.select("#resizable").ruleset(() => {
+    let backgroundColor = "black";
+    let color = `hsl(${window.innerWidth / 2}deg, 100%, 50%)`;
+    return { backgroundColor, color }; // shorthand properties are helpful
+});

@@ -166,6 +166,8 @@ class RSS {
         // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         // need fallback
 
+        // responsive design
+        window.addEventListener("resize", () => { RSS.update() });
     }
 
     /**

@@ -77,6 +77,18 @@ Calling `setProps` retains old props (unless you override them). For example, if
 
 You can get props with `RSS.getProps()`.
 
+### Responsive Design
+You can pass `window.innerWidth` and `window.innerHeight` into your ruleset to make it responsive:
+```js
+// responsive design
+RSS.select("#resizable").ruleset(() => {
+    let backgroundColor = "black";
+    let color = `hsl(${window.innerWidth / 2}deg, 100%, 50%)`;
+    return { backgroundColor, color }; // shorthand properties are helpful
+});
+```
+Styles will update upon window resize.
+
 ### Manual updating
 Styles will automatically update when props are changed, when the DOM is updated, and when new rulesets are added. If styles are not updating for some reason, simply call `RSS.update()`.
 
