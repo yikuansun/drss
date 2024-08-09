@@ -117,10 +117,6 @@ class RSS {
     static _initialized = false;
     static _nextId = 0;
 
-    static sayHello(par) {
-        console.log("hello", par);
-    }
-
     static update() {
         if (!this._initialized) return; // if style.js included in <head>, need to wait for window to load.
         let styleElement = this._getStyleElement();

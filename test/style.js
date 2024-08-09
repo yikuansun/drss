@@ -67,3 +67,8 @@ RSS.select("#resizable").ruleset(() => {
     let color = `hsl(${window.innerWidth / 2}deg, 100%, 50%)`;
     return { backgroundColor, color }; // shorthand properties are helpful
 });
+
+RSS.select("#resizable", "after").ruleset(() => {
+    let content = `"Window width: ${window.innerWidth} pixels"`;
+    return { content };
+});
