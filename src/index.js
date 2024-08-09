@@ -24,7 +24,7 @@ class Selector {
         let set = new RuleSet(_hook);
         this.ruleSets.push(set);
 
-        RSS.update();
+        DRSS.update();
     }
 
     render(props) {
@@ -41,11 +41,11 @@ class Selector {
                 }
             }
 
-            let sheet = RSS._getStyleElement();
+            let sheet = DRSS._getStyleElement();
             let nodeId = "";
-            if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
-            else nodeId = RSS.getNextId();
-            let rulesetStr = `[data-rssId="${nodeId}"],[data-rss-id="${nodeId}"]{`;
+            if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
+            else nodeId = DRSS.getNextId();
+            let rulesetStr = `[data-drssId="${nodeId}"],[data-drss-id="${nodeId}"]{`;
 
             for (let key in style) {
                 rulesetStr += key + ":" + style[key] + ";";
@@ -53,7 +53,7 @@ class Selector {
             rulesetStr += "}";
 
             sheet.innerHTML += rulesetStr;
-            node.dataset["rssId"] = nodeId;
+            node.dataset["drssId"] = nodeId;
         }
     }
 }
@@ -84,15 +84,15 @@ class StateSelector extends Selector {
                     style[c2d(key)] = dict[key];
                 }
             }
-            let sheet = RSS._getStyleElement();
+            let sheet = DRSS._getStyleElement();
             let nodeId = "";
-            if (node.dataset["rssId"]) nodeId = node.dataset["rssId"];
-            else nodeId = RSS.getNextId();
+            if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
+            else nodeId = DRSS.getNextId();
 
             let rulesetStr = "";
             // create the actual css selector
             for (let state of this.states) {
-                rulesetStr += `[data-rssId="${nodeId}"]:${state},[data-rss-id="${nodeId}"]:${state}`;
+                rulesetStr += `[data-drssId="${nodeId}"]:${state},[data-drss-id="${nodeId}"]:${state}`;
                 rulesetStr += ",";
             }
             // remove last comma
@@ -105,13 +105,13 @@ class StateSelector extends Selector {
             rulesetStr += "}";
 
             sheet.innerHTML += rulesetStr;
-            node.dataset["rssId"] = nodeId;
+            node.dataset["drssId"] = nodeId;
 
         }
     }
 }
 
-class RSS {
+class DRSS {
     static selectors = [];
     static _props = {};
     static _initialized = false;
@@ -153,36 +153,36 @@ class RSS {
         if (this._initialized) return; // don't need to initialize multiple times
         this._initialized = true;
 
-        RSS.update();
+        DRSS.update();
     
         let observer = new MutationObserver(() => {
-            RSS.update();
+            DRSS.update();
         });
         observer.observe(document.body, { childList: true, subtree: true, });
         // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         // need fallback
 
         // responsive design
-        window.addEventListener("resize", () => { RSS.update() });
+        window.addEventListener("resize", () => { DRSS.update() });
     }
 
     /**
      * Create/get the actual CSS stylesheet
-     * @returns {HTMLStyleElement} the style element (id #rssHead)
+     * @returns {HTMLStyleElement} the style element (id #drssHead)
      */
     static _getStyleElement() {
         if (!this._initialized) return false;
-        let styleElement = document.querySelector("style#rssHead");
+        let styleElement = document.querySelector("style#drssHead");
         if (!styleElement) {
             styleElement = document.createElement("style");
-            styleElement.id = "rssHead";
+            styleElement.id = "drssHead";
             document.head.appendChild(styleElement);
         }
         return styleElement;
     }
 
     /**
-     * Get a unique value for rss-id
+     * Get a unique value for drss-id
      * @returns {number} lowest available id
      */
     static getNextId() {
@@ -191,4 +191,4 @@ class RSS {
     }
 }
 
-export default RSS;
+export default DRSS;

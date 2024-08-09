@@ -1,7 +1,7 @@
 {
-    "name": "rss",
+    "name": "drss",
     "version": "0.0.1",
-    "description": "Reactive stylesheets.",
+    "description": "Dynamic reactive stylesheets.",
     "main": "src/index.js",
     "type": "module",
     "scripts": {
@@ -10,7 +10,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/yikuansun/rss.git"
+        "url": "git+https://github.com/yikuansun/drss.git"
     },
     "keywords": [
         "css"
@@ -18,9 +18,9 @@
     "author": "Yikuan Sun",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/yikuansun/rss/issues"
+        "url": "https://github.com/yikuansun/drss/issues"
     },
-    "homepage": "https://github.com/yikuansun/rss#readme",
+    "homepage": "https://github.com/yikuansun/drss#readme",
     "devDependencies": {
         "rollup": "^4.20.0"
     },
