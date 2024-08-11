@@ -13,10 +13,18 @@ class Selector {
     ruleSets = [];
     query = "";
 
+    /**
+     * Create a new selector.
+     * @param {string} query Query selector. Same as document.querySelector
+     */
     constructor(query) {
         this.query = query;
     }
 
+    /**
+     * Add a static or dynamic ruleset.
+     * @param {((node: HTMLElement, index: number, props: object) => void) | {}} hook Dictionary defining style rules, or a function which returns it.
+     */
     ruleset(hook) {
         let _hook = hook;
         if (typeof(hook) == "object") _hook = () => { return hook };
@@ -27,6 +35,10 @@ class Selector {
         DRSS.update();
     }
 
+    /**
+     * Update the style in the actual document.
+     * @param {{}} props Global properties defined by DRSS.setProps
+     */
     render(props) {
         let all = document.querySelectorAll(this.query);
         for (let i = 0; i < all.length; i++) {
@@ -111,12 +123,19 @@ class StateSelector extends Selector {
     }
 }
 
+/**
+ * Dynamic Reactive StyleSheets.
+ */
 class DRSS {
     static selectors = [];
     static _props = {};
     static _initialized = false;
     static _nextId = 0;
 
+    /**
+     * Update all styles in the document
+     * @returns {void}
+     */
     static update() {
         if (!this._initialized) return; // if style.js included in <head>, need to wait for window to load.
         let styleElement = this._getStyleElement();
@@ -126,6 +145,12 @@ class DRSS {
         }
     }
 
+    /**
+     * Select elements to add rules to.
+     * @param {string} query Selector query. See https://www.w3schools.com/cssref/css_selectors.php
+     * @param {string | string[]} state Element state, such as hover or focus.
+     * @returns {Selector} selector that you can call .ruleset() on.
+     */
     static select(query, state) {
         let selector;
         if (!state) {
@@ -138,10 +163,18 @@ class DRSS {
         return selector;
     }
 
+    /**
+     * Extract the global properties created using DRSS.setProps
+     * @returns {{}} props
+     */
     static getProps() {
         return this._props;
     }
 
+    /**
+     * Update global properties
+     * @param {{}} value { key1: value1, key2: value2, }
+     */
     static setProps(value) {
         for (let key in value) {
             this._props[key] = value[key];
@@ -149,6 +182,10 @@ class DRSS {
         this.update();
     }
 
+    /**
+     * Set up styles, update in document, and enable auto-update
+     * @returns {void}
+     */
     static initialize() {
         if (this._initialized) return; // don't need to initialize multiple times
         this._initialized = true;
