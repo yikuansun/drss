@@ -93,7 +93,7 @@ Styles will update upon window resize.
 Styles will automatically update when props are changed, when the DOM is updated, and when new rulesets are added. If styles are not updating for some reason, simply call `DRSS.update()`.
 
 ## Demo
-See [test/demo.html](./test/demo.html).
+See [test/demo.html](./test/demo.html) and [test/style.js](./test/style.js).
 
 ## Contributing
 Yes please. I could use some help.
@@ -103,3 +103,5 @@ Yes please. I could use some help.
 Need fallback if MutationObserver doesn't work
 
 pseudo-elements can be a pain
+
+Need to add animations
