@@ -3,6 +3,10 @@ import c2d from "./camelToDash";
 class RuleSet {
     hook = (node, index, props) => { return {}; };
 
+    /**
+     * Create a static or dynamic ruleset
+     * @param {(node: HTMLElement, index: number, props: object) => {}} hook Dictionary defining style rules, or a function which returns it.
+     */
     constructor(hook) {
         this.hook = hook;
     }
