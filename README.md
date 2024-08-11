@@ -105,3 +105,5 @@ Need fallback if MutationObserver doesn't work
 pseudo-elements can be a pain
 
 Need to add animations
+
+Substitute for @media print rule
