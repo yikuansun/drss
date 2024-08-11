@@ -31,11 +31,14 @@ class Selector {
      */
     ruleset(hook) {
         let _hook = hook;
+        // if hook is an object, convert it into a function which returns that object
         if (typeof(hook) == "object") _hook = () => { return hook };
 
+        // create new RuleSet object and add it to Selector.ruleSets
         let set = new RuleSet(_hook);
         this.ruleSets.push(set);
 
+        // auto-update document
         DRSS.update();
     }
 
@@ -48,19 +51,25 @@ class Selector {
         for (let i = 0; i < all.length; i++) {
             let node = all[i];
 
+            // element's complete style ruleset, as a dictionary
             let style = {};
     
             for (let set of this.ruleSets) {
                 let dict = set.hook(node, i, props);
+                // merge dict into style
                 for (let key in dict) {
+                    // convert camelcasing to dashes, ex.: backgroundColor => background-color
                     style[c2d(key)] = dict[key];
                 }
             }
 
             let sheet = DRSS._getStyleElement();
+            // set node id: either existing drss-id, or the next available number
             let nodeId = "";
             if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
             else nodeId = DRSS.getNextId();
+
+            // convert style object to a css string
             let rulesetStr = `[data-drssId="${nodeId}"],[data-drss-id="${nodeId}"]{`;
 
             for (let key in style) {
@@ -89,6 +98,7 @@ class StateSelector extends Selector {
     }
 
     render(props) {
+        // basically the same stuff as Selector.render
         let all = document.querySelectorAll(this.query);
         for (let i = 0; i < all.length; i++) {
             let node = all[i];
@@ -143,7 +153,9 @@ class DRSS {
     static update() {
         if (!this._initialized) return; // if style.js included in <head>, need to wait for window to load.
         let styleElement = this._getStyleElement();
+        // reset <style> element
         styleElement.innerHTML = "";
+        // render every Selector
         for (let selector of this.selectors) {
             selector.render(this._props);
         }
@@ -194,8 +206,10 @@ class DRSS {
         if (this._initialized) return; // don't need to initialize multiple times
         this._initialized = true;
 
+        // initial rendering
         DRSS.update();
     
+        // update whenever DOM updated (new element created, etc.)
         let observer = new MutationObserver(() => {
             DRSS.update();
         });
