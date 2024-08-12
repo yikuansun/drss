@@ -2,8 +2,6 @@
 // trust me, though - after a while using DRSS, you'll never want to make a style.css file again.
 
 // Apply styles & set up auto-update.
-import DRSS from "../src/index.js";
-
 DRSS.initialize();
 
 DRSS.setProps({
@@ -20,7 +18,7 @@ DRSS.select("h1").ruleset({
 DRSS.select("h1").ruleset((node, index, props) => {
     return {
         color: node.dataset.color || "white", // use data-color of element, or white.
-        backgroundColor: (index % 2 === 0) ? (props["evenBG"]) : (props["oddBG"]), // alternate colors
+        backgroundColor: (index % 2 == 0) ? (props["evenBG"]) : (props["oddBG"]), // alternate colors
     };
 });
 

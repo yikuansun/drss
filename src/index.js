@@ -70,8 +70,7 @@ class Selector {
             let sheet = DRSS._getStyleElement();
             // set node id: either existing drss-id, or the next available number
             let nodeId = "";
-            if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
-            else nodeId = DRSS.getNextId();
+            if (node.dataset["drssId"]) nodeId = node.dataset["drssId"]; else nodeId = DRSS.getNextId();
 
             // convert style object to a css string
             let rulesetStr = `[data-drssId="${nodeId}"],[data-drss-id="${nodeId}"]{`;
@@ -97,8 +96,7 @@ class StateSelector extends Selector {
      */
     constructor(query, states) {
         super(query);
-        if (typeof (states) === "string") this.states = [states];
-        else this.states = states;
+        if (typeof (states) === "string") this.states = [states]; else this.states = states;
     }
 
     render(props) {
@@ -116,8 +114,7 @@ class StateSelector extends Selector {
             }
             let sheet = DRSS._getStyleElement();
             let nodeId = "";
-            if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
-            else nodeId = DRSS.getNextId();
+            if (node.dataset["drssId"]) nodeId = node.dataset["drssId"]; else nodeId = DRSS.getNextId();
 
             let rulesetStr = "";
             // create the actual css selector
@@ -144,7 +141,7 @@ class StateSelector extends Selector {
 /**
  * Dynamic Reactive StyleSheets.
  */
-class DRSS {
+export default class DRSS {
     static selectors = [];
     static _props = {};
     static _initialized = false;
@@ -171,13 +168,8 @@ class DRSS {
      * @param {string | string[]} state Element state, such as hover or focus.
      * @returns {Selector} selector that you can call .ruleset() on.
      */
-    static select(query, state) {
-        let selector;
-        if (!state) {
-            selector = new Selector(query);
-        } else {
-            selector = new StateSelector(query, state);
-        }
+    static select(query, state = undefined) {
+        const selector = state ? new StateSelector(query, state) : new Selector(query)
         this.selectors.push(selector);
         return selector;
     }
@@ -206,24 +198,26 @@ class DRSS {
      * @returns {void}
      */
     static initialize() {
-        if (this._initialized) return; // don't need to initialize multiple times
-        this._initialized = true;
+        // don't need to initialize multiple times
+        if (!this._initialized) {
+            this._initialized = true;
 
-        // initial rendering
-        DRSS.update();
-
-        // update whenever DOM updated (new element created, etc.)
-        let observer = new MutationObserver(() => {
+            // initial rendering
             DRSS.update();
-        });
-        observer.observe(document.body, {childList: true, subtree: true,});
-        // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
-        // need fallback
 
-        // responsive design
-        window.addEventListener("resize", () => {
-            DRSS.update()
-        });
+            // update whenever DOM updated (new element created, etc.)
+            let observer = new MutationObserver(() => {
+                DRSS.update();
+            });
+            observer.observe(document.body, {childList: true, subtree: true,});
+            // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
+            // need fallback
+
+            // responsive design
+            window.addEventListener("resize", () => {
+                DRSS.update()
+            });
+        }
     }
 
     /**
@@ -250,5 +244,3 @@ class DRSS {
         return this._nextId - 1;
     }
 }
-
-export default DRSS;
