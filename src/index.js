@@ -225,14 +225,15 @@ export default class DRSS {
      * @returns {HTMLStyleElement} the style element (id #drssHead)
      */
     static _getStyleElement() {
-        if (!this._initialized) return false;
-        let styleElement = document.querySelector("style#drssHead");
-        if (!styleElement) {
-            styleElement = document.createElement("style");
-            styleElement.id = "drssHead";
-            document.head.appendChild(styleElement);
+        if (this._initialized) {
+            let styleElement = document.querySelector("style#drssHead");
+            if (!styleElement) {
+                styleElement = document.createElement("style");
+                styleElement.id = "drssHead";
+                document.head.appendChild(styleElement);
+            }
+            return styleElement;
         }
-        return styleElement;
     }
 
     /**
