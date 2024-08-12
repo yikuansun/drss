@@ -2,6 +2,8 @@
 // trust me, though - after a while using DRSS, you'll never want to make a style.css file again.
 
 // Apply styles & set up auto-update.
+import DRSS from "../src/index.js";
+
 DRSS.initialize();
 
 DRSS.setProps({
@@ -18,7 +20,7 @@ DRSS.select("h1").ruleset({
 DRSS.select("h1").ruleset((node, index, props) => {
     return {
         color: node.dataset.color || "white", // use data-color of element, or white.
-        backgroundColor: (index % 2 == 0)?(props["evenBG"]):(props["oddBG"]), // alternate colors
+        backgroundColor: (index % 2 === 0) ? (props["evenBG"]) : (props["oddBG"]), // alternate colors
     };
 });
 
@@ -65,10 +67,10 @@ DRSS.select("body", ":-webkit-scrollbar-thumb:hover").ruleset({
 DRSS.select("#resizable").ruleset(() => {
     let backgroundColor = "black";
     let color = `hsl(${window.innerWidth / 2}deg, 100%, 50%)`;
-    return { backgroundColor, color }; // shorthand properties are helpful
+    return {backgroundColor, color}; // shorthand properties are helpful
 });
 
 DRSS.select("#resizable", "after").ruleset(() => {
     let content = `"Window width: ${window.innerWidth} pixels"`;
-    return { content };
+    return {content};
 });

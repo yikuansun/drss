@@ -1,7 +1,9 @@
 import c2d from "./camelToDash";
 
 class RuleSet {
-    hook = (node, index, props) => { return {}; };
+    hook = (node, index, props) => {
+        return {};
+    };
 
     /**
      * Create a static or dynamic ruleset
@@ -32,7 +34,9 @@ class Selector {
     ruleset(hook) {
         let _hook = hook;
         // if hook is an object, convert it into a function which returns that object
-        if (typeof(hook) == "object") _hook = () => { return hook };
+        if (typeof (hook) === "object") _hook = () => {
+            return hook
+        };
 
         // create new RuleSet object and add it to Selector.ruleSets
         let set = new RuleSet(_hook);
@@ -53,7 +57,7 @@ class Selector {
 
             // element's complete style ruleset, as a dictionary
             let style = {};
-    
+
             for (let set of this.ruleSets) {
                 let dict = set.hook(node, i, props);
                 // merge dict into style
@@ -93,7 +97,7 @@ class StateSelector extends Selector {
      */
     constructor(query, states) {
         super(query);
-        if (typeof(states) == "string") this.states = [ states ];
+        if (typeof (states) === "string") this.states = [states];
         else this.states = states;
     }
 
@@ -103,7 +107,7 @@ class StateSelector extends Selector {
         for (let i = 0; i < all.length; i++) {
             let node = all[i];
             let style = {};
-            
+
             for (let set of this.ruleSets) {
                 let dict = set.hook(node, i, props);
                 for (let key in dict) {
@@ -171,8 +175,7 @@ class DRSS {
         let selector;
         if (!state) {
             selector = new Selector(query);
-        }
-        else {
+        } else {
             selector = new StateSelector(query, state);
         }
         this.selectors.push(selector);
@@ -208,17 +211,19 @@ class DRSS {
 
         // initial rendering
         DRSS.update();
-    
+
         // update whenever DOM updated (new element created, etc.)
         let observer = new MutationObserver(() => {
             DRSS.update();
         });
-        observer.observe(document.body, { childList: true, subtree: true, });
+        observer.observe(document.body, {childList: true, subtree: true,});
         // https://stackoverflow.com/questions/3219758/detect-changes-in-the-dom
         // need fallback
 
         // responsive design
-        window.addEventListener("resize", () => { DRSS.update() });
+        window.addEventListener("resize", () => {
+            DRSS.update()
+        });
     }
 
     /**
