@@ -71,11 +71,11 @@ class Selector {
       let sheet = DRSS._getStyleElement();
       // set node id: either existing drss-id, or the next available number
       let nodeId = "";
-      if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
+      if (node.dataset["drssid"]) nodeId = node.dataset["drssid"];
       else nodeId = DRSS.getNextId();
 
       // convert style object to a css string
-      let rulesetStr = `[data-drssId="${nodeId}"],[data-drss-id="${nodeId}"]{`;
+      let rulesetStr = `[data-drssid="${nodeId}"]{`;
 
       for (let key in style) {
         rulesetStr += key + ":" + style[key] + ";";
@@ -83,7 +83,7 @@ class Selector {
       rulesetStr += "}";
 
       sheet.innerHTML += rulesetStr;
-      node.dataset["drssId"] = nodeId;
+      node.dataset["drssid"] = nodeId;
     }
   }
 }
@@ -117,14 +117,13 @@ class StateSelector extends Selector {
       }
       let sheet = DRSS._getStyleElement();
       let nodeId = "";
-      if (node.dataset["drssId"]) nodeId = node.dataset["drssId"];
+      if (node.dataset["drssid"]) nodeId = node.dataset["drssid"];
       else nodeId = DRSS.getNextId();
 
       let rulesetStr = "";
       // create the actual css selector
       for (let state of this.states) {
-        rulesetStr += `[data-drssId="${nodeId}"]:${state},[data-drss-id="${nodeId}"]:${state}`;
-        rulesetStr += ",";
+        rulesetStr += `[data-drssid="${nodeId}"]:${state},`;
       }
       // remove last comma
       rulesetStr = rulesetStr.substring(0, rulesetStr.lastIndexOf(","));
@@ -136,7 +135,7 @@ class StateSelector extends Selector {
       rulesetStr += "}";
 
       sheet.innerHTML += rulesetStr;
-      node.dataset["drssId"] = nodeId;
+      node.dataset["drssid"] = nodeId;
     }
   }
 }
