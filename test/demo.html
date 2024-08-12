@@ -6,12 +6,12 @@
 <h1 data-color="red">I am red</h1>
 <button>Click me</button>
 <script>
-    // when the DOM is updated (ex.: new elements created), styles update automatically.
-    document.querySelector("button").addEventListener("mousedown", () => {
-        let li = document.createElement("li");
-        li.innerText = "hi";
-        document.querySelector("ul").appendChild(li);
-    });
+  // when the DOM is updated (ex.: new elements created), styles update automatically.
+  document.querySelector("button").addEventListener("mousedown", () => {
+    let li = document.createElement("li");
+    li.innerText = "hi";
+    document.querySelector("ul").appendChild(li);
+  });
 </script>
 <ul></ul>
 <div id="resizable">Resize this window to change my color!</div>

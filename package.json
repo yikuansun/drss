@@ -1,33 +1,33 @@
 {
-    "name": "drss",
-    "version": "0.0.1",
-    "description": "Dynamic reactive stylesheets.",
-    "main": "src/index.js",
-    "type": "module",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "rollup -c",
-        "format": "prettier --write .",
-        "check-format": "prettier --check ."
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/yikuansun/drss.git"
-    },
-    "keywords": [
-        "css"
-    ],
-    "author": "Yikuan Sun",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/yikuansun/drss/issues"
-    },
-    "homepage": "https://github.com/yikuansun/drss#readme",
-    "devDependencies": {
-        "rollup": "^4.20.0",
-        "prettier": "^3.0.0"
-    },
-    "dependencies": {
-        "@rollup/plugin-terser": "^0.4.4"
-    }
+  "name": "drss",
+  "version": "0.0.1",
+  "description": "Dynamic reactive stylesheets.",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "format": "prettier --write .",
+    "check-format": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yikuansun/drss.git"
+  },
+  "keywords": [
+    "css"
+  ],
+  "author": "Yikuan Sun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yikuansun/drss/issues"
+  },
+  "homepage": "https://github.com/yikuansun/drss#readme",
+  "devDependencies": {
+    "rollup": "^4.20.0",
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4"
+  }
 }
