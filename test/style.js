@@ -77,3 +77,8 @@ DRSS.select("#resizable", "after").ruleset(() => {
   let content = `"Window width: ${window.innerWidth} pixels"`;
   return { content };
 });
+
+// printing is a new state meant to replace the @media print rule.
+DRSS.select(".noprint", "printing").ruleset({
+  display: "none",
+});

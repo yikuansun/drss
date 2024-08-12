@@ -134,6 +134,16 @@ class StateSelector extends Selector {
       }
       rulesetStr += "}";
 
+      // need to create @media rule for :printing state (it's not a real state lol)
+      if (this.states.includes("printing")) {
+        let printingRulesetStr = `@media print{[data-drssid="${nodeId}"]{`;
+        for (let key in style) {
+          printingRulesetStr += key + ":" + style[key] + ";";
+        }
+        printingRulesetStr += "}}";
+        rulesetStr += printingRulesetStr;
+      }
+
       sheet.innerHTML += rulesetStr;
       node.dataset["drssid"] = nodeId;
     }
