@@ -24,10 +24,8 @@
   },
   "homepage": "https://github.com/yikuansun/drss#readme",
   "devDependencies": {
-    "rollup": "^4.20.0",
-    "prettier": "^3.0.0"
-  },
-  "dependencies": {
-    "@rollup/plugin-terser": "^0.4.4"
+    "@rollup/plugin-terser": "^0.4.4",
+    "prettier": "^3.0.0",
+    "rollup": "^4.20.0"
   }
 }
