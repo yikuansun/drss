@@ -41,7 +41,7 @@ class Selector {
       };
 
     // create new RuleSet object and add it to Selector.ruleSets
-    let set = new RuleSet(_hook);
+    const set = new RuleSet(_hook);
     this.ruleSets.push(set);
 
     return this;
@@ -52,15 +52,15 @@ class Selector {
    * @param {{}} props Global properties defined by DRSS.setProps
    */
   render(props) {
-    let all = document.querySelectorAll(this.query);
+    const all = document.querySelectorAll(this.query);
     for (let i = 0; i < all.length; i++) {
-      let node = all[i];
+      const node = all[i];
 
       // element's complete style ruleset, as a dictionary
-      let style = {};
+      const style = {};
 
       for (const set of this.ruleSets) {
-        let dict = set.hook(node, i, props);
+        const dict = set.hook(node, i, props);
         // merge dict into style
         for (const key in dict) {
           // convert camelcasing to dashes, ex.: backgroundColor => background-color
@@ -68,7 +68,7 @@ class Selector {
         }
       }
 
-      let sheet = DRSS._getStyleElement();
+      const sheet = DRSS._getStyleElement();
       // set node id: either existing drss-id, or the next available number
       let nodeId = "";
       if (node.dataset["drssid"]) nodeId = node.dataset["drssid"];
@@ -77,7 +77,7 @@ class Selector {
       // convert style object to a css string
       let rulesetStr = `[data-drssid="${nodeId}"]{`;
 
-      for (let key in style) {
+      for (const key in style) {
         rulesetStr += key + ":" + style[key] + ";";
       }
       rulesetStr += "}";
@@ -104,32 +104,32 @@ class StateSelector extends Selector {
 
   render(props) {
     // basically the same stuff as Selector.render
-    let all = document.querySelectorAll(this.query);
+    const all = document.querySelectorAll(this.query);
     for (let i = 0; i < all.length; i++) {
-      let node = all[i];
-      let style = {};
+      const node = all[i];
+      const style = {};
 
       for (const set of this.ruleSets) {
-        let dict = set.hook(node, i, props);
+        const dict = set.hook(node, i, props);
         for (const key in dict) {
           style[c2d(key)] = dict[key];
         }
       }
-      let sheet = DRSS._getStyleElement();
+      const sheet = DRSS._getStyleElement();
       let nodeId = "";
       if (node.dataset["drssid"]) nodeId = node.dataset["drssid"];
       else nodeId = DRSS.getNextId();
 
       let rulesetStr = "";
       // create the actual css selector
-      for (let state of this.states) {
+      for (const state of this.states) {
         rulesetStr += `[data-drssid="${nodeId}"]:${state},`;
       }
       // remove last comma
       rulesetStr = rulesetStr.substring(0, rulesetStr.lastIndexOf(","));
 
       rulesetStr += "{";
-      for (let key in style) {
+      for (const key in style) {
         rulesetStr += key + ":" + style[key] + ";";
       }
       rulesetStr += "}";
@@ -201,7 +201,7 @@ export default class DRSS {
    * @param {{}} value { key1: value1, key2: value2, }
    */
   static setProps(value) {
-    for (let key in value) {
+    for (const key in value) {
       this._props[key] = value[key];
     }
   }
@@ -215,7 +215,7 @@ export default class DRSS {
     if (!this._initialized) {
       this._initialized = true;
       // Update whenever DOM updated (new element created, etc.)
-      let observer = new MutationObserver(() => {
+      const observer = new MutationObserver(() => {
         DRSS.update();
       });
       observer.observe(document.body, { childList: true, subtree: true });
