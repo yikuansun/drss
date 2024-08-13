@@ -30,6 +30,7 @@ class Selector {
   /**
    * Add a static or dynamic ruleset.
    * @param {((node: HTMLElement, index: number, props: object) => void) | {}} hook Dictionary defining style rules, or a function which returns it.
+   * @return the updated selector
    */
   ruleset(hook) {
     let _hook = hook;
@@ -43,8 +44,7 @@ class Selector {
     let set = new RuleSet(_hook);
     this.ruleSets.push(set);
 
-    // auto-update document
-    DRSS.update();
+    return this;
   }
 
   /**
@@ -59,10 +59,10 @@ class Selector {
       // element's complete style ruleset, as a dictionary
       let style = {};
 
-      for (let set of this.ruleSets) {
+      for (const set of this.ruleSets) {
         let dict = set.hook(node, i, props);
         // merge dict into style
-        for (let key in dict) {
+        for (const key in dict) {
           // convert camelcasing to dashes, ex.: backgroundColor => background-color
           style[c2d(key)] = dict[key];
         }
@@ -109,9 +109,9 @@ class StateSelector extends Selector {
       let node = all[i];
       let style = {};
 
-      for (let set of this.ruleSets) {
+      for (const set of this.ruleSets) {
         let dict = set.hook(node, i, props);
-        for (let key in dict) {
+        for (const key in dict) {
           style[c2d(key)] = dict[key];
         }
       }
@@ -177,7 +177,7 @@ export default class DRSS {
   /**
    * Select elements to add rules to.
    * @param {string} query Selector query. See https://www.w3schools.com/cssref/css_selectors.php
-   * @param {string | string[]} state Element state, such as hover or focus.
+   * @param {string | string[]} state Optional element state, such as hover or focus.
    * @returns {Selector} selector that you can call .ruleset() on.
    */
   static select(query, state = undefined) {

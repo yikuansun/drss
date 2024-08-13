@@ -9,18 +9,20 @@ DRSS.setProps({
   oddBG: "grey",
 });
 
-// static ruleset
-DRSS.select("h1").ruleset({
-  fontFamily: "cursive", // "font-family" also works.
-});
+const selector = DRSS.select("h1");
 
-// dynamic ruleset
-DRSS.select("h1").ruleset((node, index, props) => {
-  return {
-    color: node.dataset.color || "white", // use data-color of element, or white.
-    backgroundColor: index % 2 == 0 ? props["evenBG"] : props["oddBG"], // alternate colors
-  };
-});
+// Static ruleset
+// You can chain them together like this
+DRSS.select("h1")
+  .ruleset({
+    fontFamily: "cursive", // "font-family" also works.
+  })
+  .ruleset((node, index, props) => {
+    return {
+      color: node.dataset.color || "white", // use data-color of element, or white.
+      backgroundColor: index % 2 == 0 ? props["evenBG"] : props["oddBG"], // alternate colors
+    };
+  });
 
 // hover state
 DRSS.select("h1", "hover").ruleset((node, index, props) => {
