@@ -9,8 +9,6 @@ DRSS.setProps({
   oddBG: "grey",
 });
 
-const selector = DRSS.select("h1");
-
 // Static ruleset
 // You can chain them together like this
 DRSS.select("h1")
@@ -20,7 +18,7 @@ DRSS.select("h1")
   .ruleset((node, index, props) => {
     return {
       color: node.dataset.color || "white", // use data-color of element, or white.
-      backgroundColor: index % 2 == 0 ? props["evenBG"] : props["oddBG"], // alternate colors
+      backgroundColor: index % 2 === 0 ? props["evenBG"] : props["oddBG"], // alternate colors
     };
   });
 

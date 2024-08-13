@@ -169,7 +169,7 @@ export default class DRSS {
     // reset <style> element
     styleElement.innerHTML = "";
     // render every Selector
-    for (let selector of this.selectors) {
+    for (const selector of this.selectors) {
       selector.render(this._props);
     }
   }
@@ -204,7 +204,6 @@ export default class DRSS {
     for (let key in value) {
       this._props[key] = value[key];
     }
-    this.update();
   }
 
   /**
@@ -215,11 +214,7 @@ export default class DRSS {
     // don't need to initialize multiple times
     if (!this._initialized) {
       this._initialized = true;
-
-      // initial rendering
-      DRSS.update();
-
-      // update whenever DOM updated (new element created, etc.)
+      // Update whenever DOM updated (new element created, etc.)
       let observer = new MutationObserver(() => {
         DRSS.update();
       });
