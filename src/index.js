@@ -44,6 +44,8 @@ class Selector {
     const set = new RuleSet(_hook);
     this.ruleSets.push(set);
 
+    if (DRSS._initialized) this.render(DRSS._props);
+
     return this;
   }
 
@@ -204,6 +206,7 @@ export default class DRSS {
     for (const key in value) {
       this._props[key] = value[key];
     }
+    this.update();
   }
 
   /**
@@ -214,6 +217,10 @@ export default class DRSS {
     // don't need to initialize multiple times
     if (!this._initialized) {
       this._initialized = true;
+
+      // initial rendering - in case initialize is called after document/ruleset load
+      this.update();
+
       // Update whenever DOM updated (new element created, etc.)
       const observer = new MutationObserver(() => {
         DRSS.update();

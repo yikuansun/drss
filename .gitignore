@@ -89,8 +89,6 @@ typings/
 
 package-lock.json
 
-dist/test.html
-
 # IDEs and Editors
 .idea/
 .vscode/
