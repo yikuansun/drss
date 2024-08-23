@@ -25,7 +25,9 @@
   "homepage": "https://github.com/yikuansun/drss#readme",
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "prettier": "^3.0.0",
-    "rollup": "^4.20.0"
+    "rollup": "^4.20.0",
+    "typescript": "^5.5.4"
   }
 }
