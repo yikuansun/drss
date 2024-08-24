@@ -7,7 +7,7 @@ export default {
     file: "dist/drss.min.js",
     format: "umd",
     name: "DRSS",
-    sourcemap: true,
+    sourcemap: false,
   },
   plugins: [
     typescript({ tsconfig: "./tsconfig.json" }),
