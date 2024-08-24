@@ -2,7 +2,7 @@
   "name": "drss",
   "version": "0.0.1",
   "description": "Dynamic reactive stylesheets.",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -27,7 +27,8 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "prettier": "^3.0.0",
-    "rollup": "^4.20.0",
+    "rollup": "^4.21.0",
+    "tslib": "^2.7.0",
     "typescript": "^5.5.4"
   }
 }

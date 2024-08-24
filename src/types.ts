@@ -1,0 +1,1 @@
+export type StyleHook = (node: HTMLElement, index: number, props: object) => { [key: string]: string | number };
