@@ -213,7 +213,6 @@ export default class DRSS {
 
   /**
    * Set up styles, update in document, and enable auto-update
-   * @returns {void}
    */
   static initialize() {
     // don't need to initialize multiple times
