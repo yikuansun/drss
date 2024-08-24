@@ -1,5 +1,5 @@
 import c2d from "./camelToDash";
-import { StyleHook } from "./types";
+import { StyleDictionary, StyleHook } from "./types";
 
 class RuleSet {
   hook: StyleHook = (node, index, props) => {
@@ -38,7 +38,7 @@ class Selector {
 
     // if hook is an object, convert it into a function which returns that object
     if (typeof hook === "object") {
-      _hook = () => hook as { [key: string]: string | number };
+      _hook = () => hook as StyleDictionary;
     } else {
       _hook = hook;
     }
@@ -56,13 +56,13 @@ class Selector {
    * Update the style in the actual document.
    * @param props Global properties defined by DRSS.setProps
    */
-  render(props: { [key: string]: any }) {
+  render(props: { [key: string]: string }) {
     const all = document.querySelectorAll(this.query);
     for (let i = 0; i < all.length; i++) {
       const node = all[i] as HTMLElement;
 
       // element's complete style ruleset, as a dictionary
-      const style: { [key: string]: string | number } = {};
+      const style: StyleDictionary = {};
 
       for (const set of this.ruleSets) {
         const dict = set.hook(node, i, props);
@@ -75,9 +75,7 @@ class Selector {
 
       const sheet = DRSS._getStyleElement();
       // set node id: either existing drss-id, or the next available number
-      let nodeId = "";
-      if (node.dataset["drssid"]) nodeId = node.dataset["drssid"]!;
-      else nodeId = DRSS.getNextId().toString();
+      const nodeId = node.dataset["drssid"] ?? DRSS.getNextId().toString();
 
       // convert style object to a css string
       let rulesetStr = `[data-drssid="${nodeId}"]{`;
@@ -107,12 +105,12 @@ class StateSelector extends Selector {
     else this.states = states;
   }
 
-  render(props: { [key: string]: any }) {
+  render(props: { [key: string]: string }) {
     // basically the same stuff as Selector.render
     const all = document.querySelectorAll(this.query);
     for (let i = 0; i < all.length; i++) {
       const node = all[i] as HTMLElement;
-      const style: { [key: string]: string | number } = {};
+      const style: StyleDictionary = {};
 
       for (const set of this.ruleSets) {
         const dict = set.hook(node, i, props);
@@ -121,9 +119,7 @@ class StateSelector extends Selector {
         }
       }
       const sheet = DRSS._getStyleElement();
-      let nodeId = "";
-      if (node.dataset["drssid"]) nodeId = node.dataset["drssid"]!;
-      else nodeId = DRSS.getNextId().toString();
+      const nodeId = node.dataset["drssid"] ?? DRSS.getNextId().toString();
 
       let rulesetStr = "";
       // create the actual css selector
@@ -185,7 +181,10 @@ export default class DRSS {
    * @param state Optional element state, such as hover or focus.
    * @returns {Selector} selector that you can call .ruleset() on.
    */
-  static select(query: string, state: string | string[] | undefined = undefined): Selector {
+  static select(
+    query: string,
+    state: string | string[] | undefined = undefined
+  ): Selector {
     const selector = state
       ? new StateSelector(query, state)
       : new Selector(query);
@@ -244,13 +243,15 @@ export default class DRSS {
    * @returns {HTMLStyleElement} the style element (id #drssHead)
    */
   static _getStyleElement(): HTMLStyleElement {
-      let styleElement = document.querySelector("style#drssHead") as HTMLStyleElement | null;
-      if (!styleElement) {
-        styleElement = document.createElement("style");
-        styleElement.id = "drssHead";
-        document.head.appendChild(styleElement);
-      }
-      return styleElement;
+    let styleElement = document.querySelector(
+      "style#drssHead"
+    ) as HTMLStyleElement | null;
+    if (!styleElement) {
+      styleElement = document.createElement("style");
+      styleElement.id = "drssHead";
+      document.head.appendChild(styleElement);
+    }
+    return styleElement;
   }
 
   /**
